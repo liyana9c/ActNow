@@ -1,18 +1,18 @@
 /* Apply mobile-specific styles */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   body {
     font-size: 16px; /* Adjust font size for better readability on mobile */
-  }
+  /*}
 
   .home-page, .report-page {
     padding: 20px; /* Add some padding for mobile layout */
-  }
+  /*}
 
   .help-button, .report-button, .submit-button {
     width: 100%;
     margin-bottom: 15px;
   }
-}
+} */
 
 /* Maintain styles for larger screens */
 body {
@@ -25,9 +25,10 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width:100% ;
 }
 
-.header{
+.header {
   width: 100%;
   max-width: 600px;
   background-color: #333; /* Header background color */
@@ -35,6 +36,7 @@ body {
   padding: 5px 0; /* Add padding for better appearance */
   text-align: center;
 }
+
 .home-page, .report-page {
   width: 90%;
   max-width: 600px;
@@ -45,12 +47,14 @@ body {
   border-radius: 5px; /* Add subtle form roundness */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
-.admin-dashboard {
-  width: 90%;
-  max-width: 600px;
-  height: auto;
+.admin-dashboard{
+  width: 1850px;
+   /* Adjusted for laptop screen size */
+  height: 100vh;
   background-color: #333; /* Form background color */
   color: #eee; /* Form text color */
   padding: 20px; /* Add some padding for readability */
@@ -81,9 +85,9 @@ body {
 .home-page {
   display: flex;
   flex-direction: column;
-  
 }
-.content{
+
+.content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -105,6 +109,8 @@ body {
 .form-group {
   margin-bottom: 15px;
   text-align: left;
+  align-items: center;
+  justify-content: center;
 }
 
 label {

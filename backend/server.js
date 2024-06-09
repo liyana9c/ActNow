@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Incident = require('./models/Incident');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const fs = require('fs');
-const mongoose = require('mongoose');
-const axios = require('axios');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const User = require('./models/User');
+const Incident = require('./models/Incident');
 const UserLocation = require('./models/UserLocation');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -24,7 +26,6 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error("Failed to connect to MongoDB:", err);
 });
 
-// Helper function to get address from latitude and longitude using OpenCage Geocoding API
 const getAddressFromCoordinates = async (latitude, longitude) => {
   try {
     const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.OPENCAGE_API_KEY}`);
@@ -39,6 +40,71 @@ const getAddressFromCoordinates = async (latitude, longitude) => {
   }
 };
 
+// Middleware to protect routes
+const authenticateToken = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(403);
+
+  try {
+    const user = await User.findOne({ token });
+    if (!user) return res.sendStatus(403);
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(500).send({ message: 'Authentication error', error });
+  }
+};
+
+// Register route
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with a token
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      token: crypto.randomBytes(64).toString('hex')
+    });
+
+    await newUser.save();
+    res.status(201).send({ message: 'User registered successfully!' });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send({ message: 'Error registering user', error });
+  }
+});
+
+// Login route
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).send({ message: 'Invalid credentials' });
+
+    // Compare the password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).send({ message: 'Invalid credentials' });
+
+    res.json({ token: user.token });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send({ message: 'Login failed', error });
+  }
+});
+
+// Protected route example
+app.get('/admin', authenticateToken, (req, res) => {
+  res.send('This is an admin protected route');
+});
+
+// Incident routes (as before)
 app.post('/report-incident', async (req, res) => {
   console.log('Request received at /report-incident');
   const { incident, details, fileContent, latitude, longitude, address } = req.body;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import HelpButton from '../components/HelpButton';
 import ReportButton from '../components/ReportButton';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
@@ -36,7 +35,6 @@ const HomePage = () => {
       <div className="content">
         <HelpButton onClick={handleHelpClick} />
         <ReportButton />
-        <Link to="/admin" className="admin-link">Admin Dashboard</Link>
       </div>
     </div>
   );

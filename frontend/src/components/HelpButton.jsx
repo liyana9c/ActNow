@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const HelpButton = ({ onClick }) => (
   <button onClick={onClick} className="help-button">
     Help
