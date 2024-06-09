@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import ReactMapGL, { Marker } from 'react-map-gl';
 import axios from 'axios';
-
-const mapContainerStyle = {
-  height: '80vh',
-  width: '100%'
-};
-
-const center = {
-  lat: 37.7749, // Default center (San Francisco)
-  lng: -122.4194
-};
 
 const AdminDashboard = () => {
   const [incidents, setIncidents] = useState([]);
   const [userLocations, setUserLocations] = useState([]);
+  const [viewport, setViewport] = useState({
+    width: '100%',
+    height: '80vh',
+    latitude: 0,
+    longitude: 0,
+    zoom: 10,
+  });
 
   useEffect(() => {
     const fetchIncidents = async () => {
       try {
         const incidentResponse = await axios.get('http://localhost:5000/incidents');
         setIncidents(incidentResponse.data);
+
+        if (incidentResponse.data.length > 0) {
+          setViewport((prevViewport) => ({
+            ...prevViewport,
+            latitude: incidentResponse.data[0].latitude,
+            longitude: incidentResponse.data[0].longitude,
+          }));
+        }
       } catch (error) {
         console.error('Error fetching incidents:', error);
       }
@@ -30,6 +35,14 @@ const AdminDashboard = () => {
       try {
         const locationResponse = await axios.get('http://localhost:5000/user-locations');
         setUserLocations(locationResponse.data);
+
+        if (locationResponse.data.length > 0 && incidents.length === 0) {
+          setViewport((prevViewport) => ({
+            ...prevViewport,
+            latitude: locationResponse.data[0].latitude,
+            longitude: locationResponse.data[0].longitude,
+          }));
+        }
       } catch (error) {
         console.error('Error fetching user locations:', error);
       }
@@ -45,16 +58,22 @@ const AdminDashboard = () => {
         <h1>Admin Dashboard</h1>
       </header>
       <div className="map-container">
-        <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-          <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={10}>
-            {incidents.map((incident) => (
-              <Marker key={incident._id} position={{ lat: incident.latitude, lng: incident.longitude }} label="I" />
-            ))}
-            {userLocations.map((location) => (
-              <Marker key={location._id} position={{ lat: location.latitude, lng: location.longitude }} label="H" />
-            ))}
-          </GoogleMap>
-        </LoadScript>
+        <ReactMapGL
+          {...viewport}
+          mapboxApiAccessToken="xxx"
+          onViewportChange={(newViewport) => setViewport(newViewport)}
+        >
+          {incidents.map((incident) => (
+            <Marker key={incident._id} latitude={incident.latitude} longitude={incident.longitude}>
+              <div style={{ color: 'red' }}>I</div>
+            </Marker>
+          ))}
+          {userLocations.map((location) => (
+            <Marker key={location._id} latitude={location.latitude} longitude={location.longitude}>
+              <div style={{ color: 'blue' }}>H</div>
+            </Marker>
+          ))}
+        </ReactMapGL>
       </div>
     </div>
   );

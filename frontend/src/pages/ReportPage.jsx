@@ -22,7 +22,7 @@ const ReportPage = () => {
           details,
           latitude,
           longitude,
-          address: '' // Assuming address can be empty or fetched from backend based on lat/lng
+          address: '' 
         };
 
         try {
