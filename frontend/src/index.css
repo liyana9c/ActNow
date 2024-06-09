@@ -34,7 +34,6 @@ body {
   color: #eee; /* Header text color */
   padding: 5px 0; /* Add padding for better appearance */
   text-align: center;
-
 }
 .home-page, .report-page {
   width: 90%;
@@ -46,6 +45,37 @@ body {
   border-radius: 5px; /* Add subtle form roundness */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
   text-align: center;
+}
+
+.admin-dashboard {
+  width: 90%;
+  max-width: 600px;
+  height: auto;
+  background-color: #333; /* Form background color */
+  color: #eee; /* Form text color */
+  padding: 20px; /* Add some padding for readability */
+  border-radius: 5px; /* Add subtle form roundness */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
+  text-align: center;
+  margin: 20px auto;
+}
+
+.map-container {
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
+}
+
+.admin-link {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.admin-link:hover {
+  text-decoration: underline;
 }
 
 .home-page {

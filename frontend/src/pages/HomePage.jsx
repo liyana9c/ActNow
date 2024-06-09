@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import HelpButton from '../components/HelpButton';
 import ReportButton from '../components/ReportButton';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
@@ -14,12 +14,12 @@ const HomePage = () => {
         setLocation({ latitude, longitude });
 
         // Send the location data to the backend to send an email
-        axios.post('http://localhost:3000/send-help-email', { latitude, longitude })
+        axios.post('http://localhost:5000/send-help-location', { latitude, longitude })
           .then(response => {
-            alert('Help email sent successfully!');
+            alert('Help alert sent successfully!');
           })
           .catch(error => {
-            alert('Error sending help email!');
+            alert('Error sending help alert!');
             console.error(error);
           });
       });
@@ -29,21 +29,17 @@ const HomePage = () => {
   };
 
   return (
-    <div >
-      
-       <div className="home-page">
-       <header className='header'>
+    <div className="home-page">
+      <header className="header">
         <h1>ActNow</h1>
-      </header> 
+      </header>
       <div className="content">
-        <HelpButton onClick={handleHelpClick} className="help-button" />
-        <ReportButton className="report-button" />
+        <HelpButton onClick={handleHelpClick} />
+        <ReportButton />
+        <Link to="/admin" className="admin-link">Admin Dashboard</Link>
       </div>
     </div>
-    </div>
-   
   );
 };
-
 
 export default HomePage;

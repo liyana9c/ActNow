@@ -1,9 +1,6 @@
-// backend/models/Incident.js
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-// Define the Incident schema
-const IncidentSchema = new Schema({
+const incidentSchema = new mongoose.Schema({
   incident: {
     type: String,
     required: true
@@ -11,6 +8,9 @@ const IncidentSchema = new Schema({
   details: {
     type: String,
     required: true
+  },
+  filePath: {
+    type: String
   },
   latitude: {
     type: Number,
@@ -20,16 +20,15 @@ const IncidentSchema = new Schema({
     type: Number,
     required: true
   },
-  fileUrl: {
+  address: {
     type: String
   },
-  reportedAt: {
+  createdAt: {
     type: Date,
     default: Date.now
   }
 });
 
-// Create the Incident model
-const Incident = mongoose.model('Incident', IncidentSchema);
+const Incident = mongoose.model('Incident', incidentSchema, "incidents");
 
 module.exports = Incident;
