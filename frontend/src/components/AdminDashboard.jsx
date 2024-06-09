@@ -60,7 +60,7 @@ const AdminDashboard = () => {
       </header>
       <div className="map-container">
         <Map
-          mapboxAccessToken='pk.eyJ1IjoidmlzaGFrYWRoZXNoaW5pIiwiYSI6ImNseDduMDlmbjBqMTIybHNneXJ0NGloOG8ifQ.WCsSe_J-htSkhcPgc550OQ'
+          mapboxAccessToken='xxxxxxx'
           style={{
             width: '100%',
             height: '800px',
