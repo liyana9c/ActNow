@@ -109,7 +109,7 @@ app.post('/report-incident', async (req, res) => {
   console.log('Request received at /report-incident');
   const { incident, details, fileContent, latitude, longitude, address } = req.body;
 
-  const resolvedAddress = address || await getAddressFromCoordinates(latitude, longitude);
+  const resolvedAddress = null || await getAddressFromCoordinates(latitude, longitude);
 
   const filePath = `uploads/${Date.now()}-incident.txt`;
   if (fileContent) {

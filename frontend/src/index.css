@@ -177,3 +177,67 @@ textarea:focus {
   margin-top: 20px;
   color: #f00; /* Message text color */
 }
+
+.content {
+  display: flex;
+}
+
+.message {
+  margin-top: 20px;
+  color: #f00; /* Message text color */
+}
+
+.side-tab {
+  position: absolute;
+  top:490px;
+  right: 60px;
+  width: 300px;
+  background-color: #eee;
+  color: #222;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Ensure it's on top of the map */
+}
+
+.side-tab h2 {
+  margin-bottom: 20px;
+}
+
+.side-tab p {
+  margin: 10px 0;
+}
+
+.side-tab button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #aa0f0f;
+  color: #eee;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.side-tab button:hover {
+  background-color: #da1414;
+}
+
+.Help{
+ 
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: #b00909;
+ 
+}
+
+.close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #090101;
+}
