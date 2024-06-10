@@ -65,13 +65,13 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <header className="header">
+      <header className="dash_header">
         <h1>Admin Dashboard</h1>
       </header>
-      <div className="content">
+      
         <div className="map-container">
           <Map
-            mapboxAccessToken='xxx'
+            mapboxAccessToken='xxxx'
             style={{
               width: '100%',
               height: '800px',
@@ -131,9 +131,9 @@ const AdminDashboard = () => {
             <button>Communicate with Responder</button>
           </div>
         )}
-      </div>
+      
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboard;  

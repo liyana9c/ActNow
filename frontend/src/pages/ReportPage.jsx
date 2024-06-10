@@ -43,8 +43,11 @@ const ReportPage = () => {
 
   return (
     <div className="report-page">
-      <h1>Report Incident</h1>
-      <form onSubmit={handleSubmit}>
+      <header className="header">
+        <h1>Report a Incident</h1>
+      </header>
+      <div className='form_center'>
+      <form onSubmit={handleSubmit} className='forms' >
         <div className="form-group">
           <label htmlFor="incident">Incident Title</label>
           <input
@@ -65,8 +68,10 @@ const ReportPage = () => {
           />
         </div>
         <button type="submit" className="submit-button">Send Report</button>
+        {message && <p className="message">{message}</p>}
       </form>
-      {message && <p className="message">{message}</p>}
+      </div>
+      
     </div>
   );
 };

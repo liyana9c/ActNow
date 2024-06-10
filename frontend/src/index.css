@@ -17,7 +17,7 @@
 /* Maintain styles for larger screens */
 body {
   font-family: Arial, sans-serif;
-  background-color: #222; /* Dark background */
+  background-color: #aeb3b5; /* Dark background */
   color: #ddd; /* Light text color */
   margin: 0;
   padding: 0;
@@ -33,6 +33,15 @@ body {
   max-width: 600px;
   background-color: #333; /* Header background color */
   color: #eee; /* Header text color */
+   /* Add padding for better appearance */
+  text-align: center;
+}
+
+.dash_header{
+  width: 100%;
+  max-width: 1850px;
+  background-color: #e00c0c; /* Header background color */
+  color: #ffffff; /* Header text color */
   padding: 5px 0; /* Add padding for better appearance */
   text-align: center;
 }
@@ -40,23 +49,48 @@ body {
 .home-page, .report-page {
   width: 90%;
   max-width: 600px;
-  height: 600px;
+  min-width: 300px;
+  height: 700px;
   background-color: #333; /* Form background color */
   color: #eee; /* Form text color */
-  padding: 30px; /* Add some padding for readability */
+  padding: 40px ; /* Add some padding for readability */
   border-radius: 5px; /* Add subtle form roundness */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
   text-align: center;
   align-items: center;
   justify-content: center;
 }
+.form_center{
+  text-align: center ;
+  align-items: center;
+  justify-content: center;
+  height:580px;
+  padding: 20px;
+  background-color: #a10707;
+}
+
+.forms{
+  width: 100%;
+  max-width: 260px;
+
+  height: 500px;
+  background-color: #333; /* Form background color */
+  color: #eee; /* Form text color */
+  padding: 40px ; /* Add some padding for readability */
+  border-radius: 5px; /* Add subtle form roundness */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+}
 
 .admin-dashboard{
   width: 1850px;
    /* Adjusted for laptop screen size */
   height: 100vh;
-  background-color: #333; /* Form background color */
-  color: #eee; /* Form text color */
+  background-color: #aeb3b5; /* Form background color */
+  color: #ffffff; /* Form text color */
   padding: 20px; /* Add some padding for readability */
   border-radius: 5px; /* Add subtle form roundness */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for better appearance */
@@ -67,20 +101,9 @@ body {
 .map-container {
   width: 100%;
   height: 400px;
-  margin-top: 20px;
+  
 }
 
-.admin-link {
-  display: block;
-  margin-top: 20px;
-  text-align: center;
-  text-decoration: none;
-  color: #007bff;
-}
-
-.admin-link:hover {
-  text-decoration: underline;
-}
 
 .home-page {
   display: flex;
@@ -91,16 +114,24 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #333;
-  padding: 20px;
+  background-color: #101111;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  height:700px;
+}
+.home_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height:700px;
 }
 
-.report-page {
-  width: 90%;
-  max-width: 500px;
-}
+
 
 .report-page h1 {
   margin-bottom: 20px;
@@ -108,9 +139,12 @@ body {
 
 .form-group {
   margin-bottom: 15px;
+  font-size: 25px;
   text-align: left;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  
 }
 
 label {
@@ -138,12 +172,12 @@ textarea:focus {
 
 .help-button {
   width: 100%;
-  min-width: 200px;
+  min-width: 300px;
   min-height: 150px;
   padding: 20px;
   font-size: 35px; /* Adjust font size for buttons */
   cursor: pointer;
-  background-color: #ef0b0b; /* Button background color */
+  background-color: #ff0000; /* Button background color */
   color: #eee; /* Button text color */
   border: none; /* Remove default button borders */
   border-radius: 5px; /* Add subtle button roundness */
@@ -157,7 +191,7 @@ textarea:focus {
   padding: 20px;
   font-size: 18px; /* Adjust font size for buttons */
   cursor: pointer;
-  background-color: #444; /* Button background color */
+  background-color: #797171; /* Button background color */
   color: #eee; /* Button text color */
   border: none; /* Remove default button borders */
   border-radius: 5px; /* Add subtle button roundness */
@@ -166,11 +200,11 @@ textarea:focus {
 }
 
 .report-button:hover {
-  background-color: #757070;
+  background-color: #010101;
 }
 
 .help-button:hover, .submit-button:hover {
-  background-color: #e71717;
+  background-color: #be362f;
 }
 
 .message {
@@ -178,9 +212,6 @@ textarea:focus {
   color: #f00; /* Message text color */
 }
 
-.content {
-  display: flex;
-}
 
 .message {
   margin-top: 20px;
@@ -189,11 +220,11 @@ textarea:focus {
 
 .side-tab {
   position: absolute;
-  top:490px;
+  top:470px;
   right: 60px;
   width: 300px;
   background-color: #eee;
-  color: #222;
+  color: #222222;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

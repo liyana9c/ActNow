@@ -32,7 +32,7 @@ const HomePage = () => {
       <header className="header">
         <h1>ActNow</h1>
       </header>
-      <div className="content">
+      <div className="home_content">
         <HelpButton onClick={handleHelpClick} />
         <ReportButton />
       </div>
