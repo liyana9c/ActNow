@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Incident = require('./models/Incident');
 const UserLocation = require('./models/UserLocation');
-const fs = require('fs');
+const axios = require('axios');
 
 dotenv.config();
 
@@ -41,19 +41,16 @@ const getAddressFromCoordinates = async (latitude, longitude) => {
 };
 
 // Middleware to protect routes
-const authenticateToken = async (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.sendStatus(403);
 
-  try {
-    const user = await User.findOne({ token });
-    if (!user) return res.sendStatus(403);
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
     req.user = user;
     next();
-  } catch (error) {
-    res.status(500).send({ message: 'Authentication error', error });
-  }
+  });
 };
 
 // Register route
@@ -61,18 +58,17 @@ app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+    const token = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-    // Create a new user with a token
     const newUser = new User({
       username,
       password: hashedPassword,
-      token: crypto.randomBytes(64).toString('hex')
+      token
     });
 
     await newUser.save();
-    res.status(201).send({ message: 'User registered successfully!' });
+    res.status(201).send({ message: 'User registered successfully!', token });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send({ message: 'Error registering user', error });
@@ -84,15 +80,14 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Find the user by username
     const user = await User.findOne({ username });
     if (!user) return res.status(400).send({ message: 'Invalid credentials' });
 
-    // Compare the password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).send({ message: 'Invalid credentials' });
 
-    res.json({ token: user.token });
+    const token = jwt.sign({ userId: user._id, username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    res.json({ token });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).send({ message: 'Login failed', error });
@@ -104,33 +99,27 @@ app.get('/admin', authenticateToken, (req, res) => {
   res.send('This is an admin protected route');
 });
 
-// Incident routes (as before)
+// Incident routes
 app.post('/report-incident', async (req, res) => {
-  console.log('Request received at /report-incident');
-  const { incident, details, fileContent, latitude, longitude, address } = req.body;
+  const { incidentType, incident, details, latitude, longitude, address } = req.body;
 
-  const resolvedAddress = null || await getAddressFromCoordinates(latitude, longitude);
-
-  const filePath = `uploads/${Date.now()}-incident.txt`;
-  if (fileContent) {
-    fs.writeFileSync(filePath, fileContent);
+  if (!incidentType || !incident || !details || !latitude || !longitude) {
+    return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const newIncident = new Incident({
-    incident,
-    details,
-    filePath: fileContent ? filePath : null,
-    latitude,
-    longitude,
-    address: resolvedAddress
-  });
-
   try {
+    const newIncident = new Incident({
+      incidentType,
+      incident,
+      details,
+      latitude,
+      longitude,
+      address
+    });
     await newIncident.save();
-    res.status(200).send({ message: 'Report sent successfully!' });
+    res.status(201).json({ message: 'Incident reported successfully' });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send({ message: 'Error sending report', error });
+    res.status(500).json({ message: 'Error reporting incident', error });
   }
 });
 

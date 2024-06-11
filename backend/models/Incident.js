@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const incidentSchema = new mongoose.Schema({
+  incidentType: {
+    type: String,
+    required: true,
+    enum: ['Fire', 'Crime', 'Medical', 'Other']
+  },
   incident: {
     type: String,
     required: true
@@ -8,9 +13,6 @@ const incidentSchema = new mongoose.Schema({
   details: {
     type: String,
     required: true
-  },
-  filePath: {
-    type: String
   },
   latitude: {
     type: Number,
@@ -21,14 +23,13 @@ const incidentSchema = new mongoose.Schema({
     required: true
   },
   address: {
-    type: String
+    type: String,
+    required: false
   },
-  createdAt: {
+  timestamp: {
     type: Date,
     default: Date.now
   }
 });
 
-const Incident = mongoose.model('Incident', incidentSchema, "incidents");
-
-module.exports = Incident;
+module.exports = mongoose.model('Incident', incidentSchema, 'incidents');
